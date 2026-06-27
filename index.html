@@ -46,8 +46,8 @@
     }
 
     .dot {
-      width: 2vw;
-      height: 2vw;
+      width: 3.5vw;
+      height: 3.5vw;
       border-radius: 50%;
       background: #fff;
     }
@@ -64,7 +64,7 @@
     #side-left, #side-right { background: blue;
       flex: 1;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
@@ -75,13 +75,14 @@
       font-weight: 800;
       line-height: 1;
       text-align: center;
+      font-size: 28vw;
     }
 
     #divider {
       width: 60px;
       flex-shrink: 0;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
     }
 
@@ -171,10 +172,6 @@
     const ptR = POINTS[state.pts[1]];
     document.getElementById('pt-left').textContent = ptL;
     document.getElementById('pt-right').textContent = ptR;
-
-    [['pt-left', ptL], ['pt-right', ptR]].forEach(([id, txt]) => {
-      document.getElementById(id).style.fontSize = txt.length === 1 ? '42vw' : '28vw';
-    });
 
     document.getElementById('dots-left').innerHTML = makeDots(state.games[0]);
     document.getElementById('dots-right').innerHTML = makeDots(state.games[1]);
