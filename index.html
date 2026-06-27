@@ -21,7 +21,7 @@
     }
 
     /* Top bar: Undo | dots-left | dots-center | dots-right | 0:0 */
-    #topbar {
+    #topbar { background: blue;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -31,13 +31,13 @@
 
     .ctrl {
       font-size: 4vw;
-      color: #555;
+      color: #fff;
       cursor: pointer;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
       padding: 0.5vh 1vw;
     }
-    .ctrl:active { color: #fff; }
+    .ctrl:active { color: #aaa; }
 
     #dots-left, #dots-right {
       display: flex;
@@ -61,7 +61,7 @@
       margin-top: 0;
     }
 
-    #side-left, #side-right {
+    #side-left, #side-right { background: blue;
       flex: 1;
       display: flex;
       align-items: center;
@@ -86,7 +86,7 @@
     }
 
     #keepalive {
-      width: 6px;
+      width: 20px;
       height: 60vh;
       border-radius: 3px;
     }
@@ -213,11 +213,23 @@
 
   // ── Canvas → video keepalive ───────────────────────────────────
   const canvas = document.createElement('canvas');
-  canvas.width = 6;
+  canvas.width = 20;
   canvas.height = 300;
   const ctx = canvas.getContext('2d');
   const vid = document.getElementById('keepalive');
-  try { vid.srcObject = canvas.captureStream(30); vid.play().catch(() => {}); } catch(e) {}
+
+  function startVideo() {
+    try {
+      vid.srcObject = canvas.captureStream(30);
+      vid.play().catch(() => {});
+    } catch(e) {}
+  }
+
+  // Try immediately, retry on first interaction
+  startVideo();
+  document.addEventListener('click', startVideo, { once: true });
+  document.addEventListener('touchstart', startVideo, { once: true });
+  document.addEventListener('keydown', startVideo, { once: true });
 
   let phase = 0;
   (function draw() {
@@ -225,7 +237,7 @@
     const t = (Math.sin(phase) + 1) / 2;
     const b = Math.round(80 + t * 175);
     ctx.fillStyle = `rgb(${b},${b},${b})`;
-    ctx.fillRect(0, 0, 6, 300);
+    ctx.fillRect(0, 0, 20, 300);
     requestAnimationFrame(draw);
   })();
 </script>
