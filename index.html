@@ -58,7 +58,6 @@
       display: flex;
       align-items: stretch;
       overflow: hidden;
-      margin-top: 0;
     }
 
     #side-left, #side-right { background: blue;
@@ -84,13 +83,12 @@
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      padding-top: 0;
       background: blue;
     }
 
     #keepalive {
       width: 20px;
-      height: 60vh;
+      height: 100%;
       border-radius: 3px;
       display: block;
       margin: 0;
@@ -215,7 +213,7 @@
   // ── Canvas → video keepalive ───────────────────────────────────
   const canvas = document.createElement('canvas');
   canvas.width = 20;
-  canvas.height = 300;
+  canvas.height = 1000;
   const ctx = canvas.getContext('2d');
   const vid = document.getElementById('keepalive');
 
@@ -238,7 +236,7 @@
     const t = (Math.sin(phase) + 1) / 2;
     const b = Math.round(80 + t * 175);
     ctx.fillStyle = `rgb(${b},${b},${b})`;
-    ctx.fillRect(0, 0, 20, 300);
+    ctx.fillRect(0, 0, 20, 1000);
     requestAnimationFrame(draw);
   })();
 </script>
