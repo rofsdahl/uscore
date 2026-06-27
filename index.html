@@ -57,7 +57,7 @@
 </head>
 <body tabindex="0">
 
-  <h1>Button Tester - landscape</h1>
+  <h1>Button Tester 2026-06-27 13:44</h1>
   <div id="event-name"></div>
 
 <script>
@@ -68,6 +68,22 @@
   const labels = { 1: 'SINGLE', 2: 'DOUBLE', 3: 'TRIPLE' };
 
   document.body.focus();
+
+  // Keep screen awake
+  let wakeLock = null;
+  async function requestWakeLock() {
+    try {
+      wakeLock = await navigator.wakeLock.request('screen');
+    } catch (e) {
+      console.log('Wake lock failed:', e);
+    }
+  }
+  requestWakeLock();
+
+  // Re-acquire after tab becomes visible again
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') requestWakeLock();
+  });
 
   window.addEventListener('keydown', (e) => {
     if (e.key === ' ') e.preventDefault();
