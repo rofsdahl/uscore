@@ -120,87 +120,66 @@
   <div class="log-label">Last events</div>
 </div>
 
-<p id="hint">Connect your headset or clicker via Bluetooth, then press the volume buttons.</p>
+<p id="hint">Press spacebar — single, double, or triple. Each pattern is detected after a short pause.</p>
 
 <script>
-  const DOUBLE_PRESS_MS = 350;
+  const WINDOW_MS = 400; // time to wait for more presses
 
-  let lastKey = null;
-  let lastTime = 0;
+  let pressCount = 0;
+  let timer = null;
 
   const eventName = document.getElementById('event-name');
   const eventDetail = document.getElementById('event-detail');
   const flash = document.getElementById('flash');
   const log = document.getElementById('log');
 
-  const colorMap = {
-    UP: '#4ade80',
-    DOWN: '#60a5fa',
-    DOUBLE_UP: '#facc15',
-    DOUBLE_DOWN: '#f97316',
+  const actions = {
+    1: { label: 'SINGLE',  color: '#4ade80' },
+    2: { label: 'DOUBLE',  color: '#facc15' },
+    3: { label: 'TRIPLE',  color: '#f97316' },
   };
 
-  function showEvent(action, key, code) {
-    eventName.textContent = action.replace('_', ' ');
-    eventName.className = action;
-    eventDetail.textContent = `key: "${key}"  code: "${code}"`;
+  function fireAction(count) {
+    const action = actions[count] || { label: `×${count}`, color: '#fff' };
 
-    // Flash background
-    flash.style.background = colorMap[action] || '#fff';
-    flash.style.opacity = '0.12';
+    eventName.textContent = action.label;
+    eventName.style.color = action.color;
+    eventDetail.textContent = `${count} press${count > 1 ? 'es' : ''} detected`;
+
+    flash.style.background = action.color;
+    flash.style.opacity = '0.15';
     setTimeout(() => flash.style.opacity = '0', 150);
 
-    addLog(action, key);
+    addLog(action.label, count);
   }
 
-  function addLog(action, key) {
+  function addLog(label, count) {
     const now = new Date();
     const time = now.toLocaleTimeString('en', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
     const entry = document.createElement('div');
     entry.className = 'log-entry';
-    entry.innerHTML = `<span class="action ${action}">${action.replace('_', ' ')}</span><span class="time">${key} · ${time}</span>`;
+    entry.innerHTML = `<span class="action" style="color:${actions[count]?.color||'#fff'}">${label}</span><span class="time">${time}</span>`;
 
-    // Insert after label
-    const label = log.querySelector('.log-label');
-    label.after(entry);
+    const logLabel = log.querySelector('.log-label');
+    logLabel.after(entry);
 
-    // Keep max 5 entries
     const entries = log.querySelectorAll('.log-entry');
     if (entries.length > 5) entries[entries.length - 1].remove();
   }
 
   document.addEventListener('keydown', (e) => {
-    // Prevent volume keys from doing browser things
+    if (e.key !== ' ') return;
     e.preventDefault();
+    if (e.repeat) return; // ignore held key
 
-    const now = Date.now();
-    const key = e.key;
-    const code = e.code;
+    pressCount++;
 
-    let direction = null;
-    if (key === 'AudioVolumeUp' || key === 'VolumeUp') direction = 'UP';
-    else if (key === 'AudioVolumeDown' || key === 'VolumeDown') direction = 'DOWN';
-    else if (key === 'ArrowUp') direction = 'UP';
-    else if (key === 'ArrowDown') direction = 'DOWN';
-    else if (key === 'ArrowRight') direction = 'UP';
-    else if (key === 'ArrowLeft') direction = 'DOWN';
-    else if (key === ' ' || key === 'Enter') direction = 'UP';
-    else {
-      // Show unknown key anyway
-      showEvent('UP', key, code);
-      eventName.textContent = key || code;
-      eventName.style.color = '#fff';
-      return;
-    }
-
-    const isDouble = (lastKey === direction) && (now - lastTime < DOUBLE_PRESS_MS);
-    const action = isDouble ? `DOUBLE_${direction}` : direction;
-
-    showEvent(action, key, code);
-
-    lastKey = isDouble ? null : direction;
-    lastTime = now;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fireAction(pressCount);
+      pressCount = 0;
+    }, WINDOW_MS);
   });
 </script>
 
