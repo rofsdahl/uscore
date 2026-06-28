@@ -12,7 +12,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: red;
+      background: blue;
       color: white;
       font-size: 6vw;
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -176,7 +176,7 @@
   // ── Canvas → video keepalive ───────────────────────────────────
   const canvas = document.createElement('canvas');
   canvas.width = 20;
-  canvas.height = 800;
+  canvas.height = 600;
   const ctx = canvas.getContext('2d');
   const vid = document.getElementById('keepalive');
 
@@ -198,7 +198,7 @@
     const t = (Math.sin(phase) + 1) / 2; // Cycles 0->1->0->1
     const b = Math.round(200 + t * 55);
     ctx.fillStyle = `rgb(${b},${b},${b})`;
-    ctx.fillRect(0, 0, 20, 800);
+    ctx.fillRect(0, 0, 20, 600);
     requestAnimationFrame(draw);
   })();
 </script>
