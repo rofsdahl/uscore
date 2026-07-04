@@ -182,25 +182,22 @@
   const ctx = canvas.getContext('2d');
   const vid = document.getElementById('keepalive');
 
-  function resizeCanvas() {
+  (function resizeCanvas() {
     canvas.width = vid.offsetWidth;
     canvas.height = vid.offsetHeight;
-  }
-  resizeCanvas();
+  })();
+  window.addEventListener('resize', resizeCanvas);
 
-  function startVideo() {
+  (function startVideo() {
     try {
       vid.srcObject = canvas.captureStream(30);
       vid.play().catch(() => {});
     } catch(e) {}
-  }
-  startVideo();
-
+  })();
   document.addEventListener('click', startVideo, { once: true });
   document.addEventListener('touchstart', startVideo, { once: true });
   document.addEventListener('keydown', startVideo, { once: true });
-  window.addEventListener('resize', resizeCanvas);
-
+  
   let phase = 0;
   (function draw() {
     phase += 0.015;
