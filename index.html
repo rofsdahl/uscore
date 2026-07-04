@@ -56,7 +56,7 @@
 <div id="left">
   <div id="top-left">
     <div onclick="reset()">⊕</div>
-    <div id="serve-left">S</div>
+    <div id="serve-left">⌾</div>
     <div id="games-left"></div>
   </div>
   <div id="points-left" onclick="addPoint(0)">0</div>
@@ -67,7 +67,7 @@
 <div id="right">
   <div id="top-right">
     <div id="games-right"></div>
-    <div id="serve-right">S</div>
+    <div id="serve-right">⌾</div>
     <div onclick="undo()">⌫</div>
   </div>
   <div id="points-right" onclick="addPoint(1)">0</div>
@@ -140,6 +140,8 @@
     document.getElementById('points-right').textContent = POINTS[state.points[1]];
     document.getElementById('games-left').textContent = state.games[0];
     document.getElementById('games-right').textContent = state.games[1];
+    document.getElementById('serve-left').display = state.serving === 0 ? 'block' : 'none';
+    document.getElementById('serve-right').display = state.serving === 1 ? 'block' : 'none';
     document.getElementById('left').style.background = state.serving === 0 ? 'green' : 'red';
     document.getElementById('right').style.background = state.serving === 1 ? 'green' : 'red';
   }
