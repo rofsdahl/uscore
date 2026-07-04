@@ -140,7 +140,7 @@
     document.getElementById('points-right').textContent = POINTS[state.points[1]];
     document.getElementById('games-left').textContent = state.games[0];
     document.getElementById('games-right').textContent = state.games[1];
-    let dir = (((state.points[0] + state.points[1]) % 2) === 0) ? '⋰' : '⋱';
+    let dir = (((state.points[0] + state.points[1]) % 2) === 0) ? '⟋' : '⟍';
     document.getElementById('serve-left').textContent = state.serving === 0 ? dir : '';
     document.getElementById('serve-right').textContent = state.serving === 1 ? dir : '';
     document.getElementById('left').style.background = state.serving === 0 ? 'green' : 'red';
