@@ -86,7 +86,7 @@
     const opposite = 1 - side;
     const p = state.points;
 
-    chime(state.serving);
+    chime(side === state.serving);
     if (p[side] < 3) {
       p[side]++;
     } else if (p[side] === 3 && p[opposite] < 3) {
@@ -101,13 +101,13 @@
     render();
   }
 
-  function chime(side) {
+  function chime(highPitch) {
     const ac = new (window.AudioContext || window.webkitAudioContext)();
     const osc = ac.createOscillator();
     const gain = ac.createGain();
     osc.connect(gain);
     gain.connect(ac.destination);
-    osc.frequency.value = side === 0 ? 880 : 660;
+    osc.frequency.value = highPitch ? 880 : 660;
     gain.gain.setValueAtTime(0.3, ac.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.4);
     osc.start();
