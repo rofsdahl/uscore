@@ -221,7 +221,7 @@
       debug = !debug;
       overlay.style.display = debug ? 'block' : 'none';
       overlay.textContent = 'Debug ' + (debug ? 'ON' : 'OFF');
-    }, 2000);
+    }, 1000);
   });
   document.getElementById('divider').addEventListener('touchend', () => clearTimeout(longPressTimer));
 
