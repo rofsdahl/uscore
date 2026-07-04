@@ -183,17 +183,19 @@
   const ctx = canvas.getContext('2d');
   const vid = document.getElementById('keepalive');
 
-  (function resizeCanvas() {
+  function resizeCanvas() {
     canvas.width = vid.offsetWidth;
     canvas.height = vid.offsetHeight;
-  })();
+  }
+  resizeCanvas();
 
-  (function startVideo() {
+  function startVideo() {
     try {
       vid.srcObject = canvas.captureStream(30);
       vid.play().catch(() => {});
     } catch(e) {}
-  })();
+  }
+  startVideo();
 
   document.addEventListener('click', startVideo, { once: true });
   document.addEventListener('touchstart', startVideo, { once: true });
