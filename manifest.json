@@ -1,7 +1,7 @@
 {
-  "name": "Padel Score",
-  "short_name": "Padel",
-  "start_url": "/padel-score/",
+  "name": "uScore",
+  "short_name": "uScore",
+  "start_url": "/uScore/",
   "display": "standalone",
   "background_color": "#0000ff",
   "theme_color": "#000000",
