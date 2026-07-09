@@ -232,9 +232,27 @@
   });
   document.getElementById('divider').addEventListener('touchend', () => clearTimeout(longPressTimer));
 
+/*
   function showDebug(msg) {
     if (!debug) return;
     overlay.textContent = msg;
+  }
+*/
+
+  const log = [];
+  const MAX_LINES = 15;
+
+  function showDebug(msg) {
+    if (!debug) return;
+
+    const t = (performance.now() / 1000).toFixed(3);
+    log.push(`${t}  ${msg}`);
+
+    if (log.length > MAX_LINES)
+      log.shift();
+
+    overlay.textContent = log.join('\n');
+    overlay.style.whiteSpace = 'pre';
   }
 
   /*
@@ -259,9 +277,14 @@
 ].forEach(type => {
   document.addEventListener(type, e => {
     //console.log(type, e);
-    showDebug(`type: ${type}`)
+    //showDebug(`type: ${type}`)
+    
+    showDebug(
+      `${type} pt=${e.pointerType || '-'} btn=${e.button ?? '-'}`
+    );
   }, { passive: false });
 });
+
 </script>
 </body>
 </html>
