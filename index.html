@@ -62,7 +62,7 @@
     <div id="serve-left"></div>
     <div id="games-left"></div>
   </div>
-  <div id="points-left" onclick="addPoint(0)">0</div>
+  <div id="points-left" /*onclick="addPoint(0)"*/>0</div>
 </div>
 <div id="divider">
   <video id="keepalive" autoplay playsinline muted loop></video>
@@ -73,7 +73,7 @@
     <div id="serve-right"></div>
     <div onclick="undo()">⌫</div>
   </div>
-  <div id="points-right" onclick="addPoint(1)">0</div>
+  <div id="points-right" /*onclick="addPoint(1)"*/>0</div>
 </div>
 
 <script>
@@ -287,9 +287,11 @@
   document.addEventListener('pointerup', e => {
     const dx = e.clientX - startX;
     const dy = e.clientY - startY;
-    showDebug(`dx ${dx}, dy ${dy}`);
-    if (dx > 50) addPoint(0);
-    if (dx < -50) addPoint(1);
+    showDebug(`dx: ${dx}\ndy: ${dy}`);
+    if      (dx >  100) addPoint(0);
+    else if (dx < -100) addPoint(1);
+    else if (dy >  100) undo();
+    else if (dy < -100) reset();
   });
 
   // Disable default touch scroll behavior
