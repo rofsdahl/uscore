@@ -107,8 +107,8 @@
 
   const ac = new (window.AudioContext || window.webkitAudioContext)();
   function chime(highPitch) {
-    /*
-    showDebug(`AC : ${ac.state}`);
+    showDebug(`Chime ${highPitch} ${ac.state}`);
+/*
     if (ac.state !== 'running') {
       try { await ac.resume(); }
       catch {}
