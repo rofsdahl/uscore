@@ -107,7 +107,13 @@
 
   const ac = new (window.AudioContext || window.webkitAudioContext)();
   function chime(highPitch) {
-    showDebug(`Chime ${ac.state}`);
+    if (ac.state === 'suspended') {
+      ac.resume();
+      showDebug(`Chime sus->${ac.state}`);
+    }
+    else {
+      showDebug(`Chime ${ac.state}`);
+    }
     const osc = ac.createOscillator();
     const gain = ac.createGain();
     osc.connect(gain);
@@ -175,12 +181,14 @@
   //document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
 
   // Resume AudioContext if suspended
+/*
   document.addEventListener('pointerdown', () => {
     if (ac.state === 'suspended') {
       showDebug('ac.resume');
       ac.resume();
     }
   }, { once: true });
+  */
 
   // ── Wake lock ──────────────────────────────────────────────────
   async function requestWakeLock() {
