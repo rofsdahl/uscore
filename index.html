@@ -91,7 +91,7 @@
   <div id="points-right">0</div>
 </div>
 <div id="overlay">
-  Debug...
+  Court Score by rofsdahl
 </div>
 <script>
   const POINTS = ['0', '15', '30', '40', 'AD'];
@@ -107,7 +107,6 @@
     const opposite = 1 - side;
     const p = state.points;
 
-    chime(side === state.serving);
     if (p[side] < 3) {
       p[side]++;
     } else if (p[side] === 3 && p[opposite] < 3) {
@@ -161,6 +160,7 @@
   document.addEventListener('pointerdown', e => {
     startX = e.clientX;
     startY = e.clientY;
+    overlay.style.display = 'none';
   });
   document.addEventListener('pointerup', e => {
     showDebug(`${ac.state}`);
@@ -174,33 +174,6 @@
 
   // Disable default touch scroll behavior
   document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
-
-  // ── Audio ──────────────────────────────────────────────
-  let ac;
-  function ensureAudio() {
-    if (!ac) {
-      ac = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    showDebug(`${ac.state}`);
-    if (ac.state !== 'running') {
-      showDebug('ac.resume');
-      return ac.resume();
-    }
-    return Promise.resolve();
-  }
-  document.addEventListener('pointerdown', ensureAudio, { passive: true });
-
-  function chime(highPitch) {
-    const osc = ac.createOscillator();
-    const gain = ac.createGain();
-    osc.connect(gain);
-    gain.connect(ac.destination);
-    osc.frequency.value = highPitch ? 880 : 660;
-    gain.gain.setValueAtTime(0.3, ac.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.4);
-    osc.start();
-    osc.stop(ac.currentTime + 0.4);
-  }
 
   // ── Wake lock ──────────────────────────────────────────────────
   async function requestWakeLock() {
@@ -243,29 +216,6 @@
     ctx.fillRect(0, 0, 20, 1000);
     requestAnimationFrame(draw);
   })();
-
-  // ── Debug overlay ──────────────────────────────────────────────
-/*
-  let debug = false;
-  const overlay = document.createElement('div');
-  overlay.style.cssText = 'display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);color:white;font-size:3vw;padding:1vh 3vw;border-radius:8px;text-align:center;pointer-events:none;';
-  document.body.appendChild(overlay);
-
-  let longPressTimer = null;
-  document.getElementById('divider').addEventListener('touchstart', () => {
-    longPressTimer = setTimeout(() => {
-      debug = !debug;
-      overlay.style.display = debug ? 'block' : 'none';
-      overlay.textContent = 'Debug ' + (debug ? 'ON' : 'OFF');
-    }, 1000);
-  });
-  document.getElementById('divider').addEventListener('touchend', () => clearTimeout(longPressTimer));
-*/
-
-  function showDebug(msg) {
-    //if (!debug) return;
-    overlay.textContent = msg;
-  }
 
 </script>
 </body>
