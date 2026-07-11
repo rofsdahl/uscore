@@ -55,7 +55,6 @@
   </style>
 </head>
 <body tabindex="0">
-
 <div id="left">
   <div id="top-left">
     <div id="games-left"></div>
@@ -82,22 +81,11 @@
     return { points: [0, 0], games: [0, 0], serving: serving};
   }
 
-  function addPoint(side) {
-    history.push(JSON.parse(JSON.stringify(state)));
-    const opp = 1 - side;
-    const p = state.points;
-    if (p[side] < 3) p[side]++;
-    else if (p[side] === 4) winGame(side);
-    else if (p[opp] < 3) winGame(side);
-    else if (p[opp] === 3) p[side] = 4;
-    else if (p[opp] === 4) p[opp] = 3;
+  function reset() {
+    let serving = 1 - state.serving;
+    state = freshState(serving);
+    history = [];
     render();
-  }
-
-  function winGame(side) {
-    state.points = [0, 0];
-    state.games[side]++;
-    state.serving = 1 - state.serving;
   }
 
   function undo() {
@@ -106,11 +94,22 @@
     render();
   }
 
-  function reset() {
-    let serving = 1 - state.serving;
-    state = freshState(serving);
-    history = [];
+  function addPoint(side) {
+    history.push(JSON.parse(JSON.stringify(state)));
+    const other = 1 - side;
+    const p = state.points;
+    if (p[side] < 3) p[side]++;
+    else if (p[side] === 4) winGame(side);
+    else if (p[other] < 3) winGame(side);
+    else if (p[other] === 3) p[side] = 4;
+    else if (p[other] === 4) p[other] = 3;
     render();
+  }
+
+  function winGame(side) {
+    state.points = [0, 0];
+    state.games[side]++;
+    state.serving = 1 - state.serving;
   }
 
   function render() {
