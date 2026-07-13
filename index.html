@@ -74,9 +74,9 @@
     }
     #bookmark {
       position: fixed;
-      top: 80%; left: 50%;
+      top: 85%; left: 50%;
       transform: translate(-50%, -50%);
-      max-width: 80vw;
+      max-width: 90vw;
       max-height: 10vh;
       background: rgba(0,0,0,0.8);
       color: white;
@@ -188,12 +188,12 @@
   let bookmarkTimer = null;
   function showBookmark() {
     const bookmark = document.getElementById('bookmark').style;
-    info.opacity = '1';
-    info.display = 'block';
+    bookmark.opacity = '1';
+    bookmark.display = 'block';
     clearTimeout(bookmarkTimer);
       bookmarkTimer = setTimeout(() => {
-      info.opacity = '0';
-      setTimeout(() => info.display = 'none', 400);
+      bookmark.opacity = '0';
+      setTimeout(() => bookmark.display = 'none', 400);
     }, 3000);
   }
   showBookmark();
