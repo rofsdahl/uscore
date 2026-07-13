@@ -72,6 +72,22 @@
       z-index: 10;
       transition: opacity 0.4s;
     }
+    #bookmark {
+      position: fixed;
+      top: 80%; left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 80vw;
+      max-height: 10vh;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      font-size: 5vw;
+      font-weight: 400;
+      text-align: center;
+      padding: 4vw 6vw;
+      border-radius: 16px;
+      z-index: 10;
+      transition: opacity 0.4s;
+    }
   </style>
 </head>
 <body tabindex="0">
@@ -96,6 +112,9 @@
   ↑ new match<br/>
   ← add point →<br/>
   ↓ undo
+</div>
+<div id="bookmark">
+  Legg til på hjemskjerm
 </div>
 
 <script>
@@ -164,6 +183,20 @@
     }, 3000);
   }
   showInfo();
+
+  // ── Bookmark ──────────────────────────────────────────────
+  let bookmarkTimer = null;
+  function showBookmark() {
+    const bookmark = document.getElementById('bookmark').style;
+    info.opacity = '1';
+    info.display = 'block';
+    clearTimeout(bookmarkTimer);
+      bookmarkTimer = setTimeout(() => {
+      info.opacity = '0';
+      setTimeout(() => info.display = 'none', 400);
+    }, 3000);
+  }
+  showBookmark();
 
   // ── Pointer move input ──────────────────────────────────────────────
   let startX;
