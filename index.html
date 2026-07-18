@@ -87,7 +87,7 @@
   <div id="games-right">0</div>
   <div id="points-right">0</div>
 </div>
-<div id="info" onclick="infoToggle()">
+<div id="info">
   ↑ new match<br/>
   ← add point →<br/>
   ↓ undo
@@ -99,10 +99,6 @@
   let history = [];
   let state = freshState(0);
 
-  function infoToggle() {
-    document.getElementById('info').style.background = state.serving === 0 ? 'green' : 'red';
-  }
-  
   function freshState(serving) {
     return { points: [0, 0], games: [0, 0], serving: serving};
   }
