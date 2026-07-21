@@ -32,7 +32,6 @@
       flex-direction: column;
     }
     #games-left {
-      margin-bottom: -3vw;
       padding-right: 3vw;
       text-align: right;
     }
@@ -139,8 +138,8 @@
     document.getElementById('points-right').textContent = POINTS[state.points[1]];
     document.getElementById('games-left').textContent = state.games[0];
     document.getElementById('games-right').textContent = state.games[1];
-    document.getElementById('points-left').style.background = state.serving === 0 ? 'green' : 'red';
-    document.getElementById('points-right').style.background = state.serving === 1 ? 'green' : 'red';
+    document.getElementById('left').style.background = state.serving === 0 ? 'green' : 'red';
+    document.getElementById('right').style.background = state.serving === 1 ? 'green' : 'red';
   }
   render();
 
